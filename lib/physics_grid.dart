@@ -38,7 +38,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
   // set the tile position at initialization
   void init(Duration duration) {
-    debugPrint('_PhysicsGridState init');
+    debugPrint('init');
     puzzleState = puzzleStateNotifier.value;
     initTilePositions(puzzleState);
     setState(() {});
@@ -65,7 +65,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   Offset getTileOffset(Tile tile, Offset gridOffset) {
     final BuildContext? buildContext = tile.key.currentContext;
     if (buildContext == null) {
-      debugPrint('BuildContext for tile ${tile.value} is null');
+      //debugPrint('BuildContext for tile ${tile.value} is null');
       return Offset.zero;
     }
     final RenderBox box = buildContext.findRenderObject() as RenderBox;

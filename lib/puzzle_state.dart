@@ -48,10 +48,10 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     List<Tile> newTiles = [];
     for (Tile tile in shuffled) {
       newTiles.add(Tile(tile.value, tile.key));
+      value = PuzzleState(newTiles, GameState.shuffle);
       if (tile.value != -1) {
         Sound.instance.play(tile);
       }
-      value = PuzzleState(newTiles, GameState.shuffle);
       await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
     }
     value = PuzzleState(newTiles, GameState.shuffle);
@@ -99,10 +99,10 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
         for (Tile tile in puzzle) {
           tile.velocity = getRandomSolvedVector();
           tile.solved = true;
+          value = PuzzleState(puzzle, GameState.solved);
           if (tile.value != -1) {
             Sound.instance.play(tile);
           }
-          value = PuzzleState(puzzle, GameState.solved);
           await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
         }
         value = PuzzleState(puzzle, GameState.solved);
