@@ -30,7 +30,7 @@ class PuzzleBoard extends StatelessWidget {
                 width: maxSize,
                 height: maxSize,
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(24),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -41,7 +41,6 @@ class PuzzleBoard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
               Flexible(
                 child: ShuffleButton(puzzleState),
               ),
