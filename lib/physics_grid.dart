@@ -31,8 +31,6 @@ class _PhysicsGridState extends State<PhysicsGrid>
       final gameState = puzzleState.gameState;
       if (gameState == GameState.shuffle) {
         initTilePositions(puzzleState);
-      } else if (sizeDidChange()) {
-        initTilePositions(puzzleState);
       }
       setState(() {});
     });
@@ -86,6 +84,10 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 
   void _update(Duration duration) {
+    if (sizeDidChange()) {
+      initTilePositions(puzzleState);
+    }
+
     final Duration delta = duration - prevTime;
     prevTime = duration;
     final double dt = delta.inMicroseconds / 1e6;
