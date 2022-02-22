@@ -21,7 +21,7 @@ class PhysicsGrid extends StatefulWidget {
 class _PhysicsGridState extends State<PhysicsGrid>
     with SingleTickerProviderStateMixin {
   List<Tile> tiles = [];
-  double prevTime = 0.0;
+  Duration previousFrameTime = Duration.zero;
   Size size = Size.zero;
 
   @override
@@ -83,9 +83,9 @@ class _PhysicsGridState extends State<PhysicsGrid>
       _buildTilePositions();
     }
 
-    final double time = duration.inMilliseconds / 1000.0;
-    final double dt = time - prevTime;
-    prevTime = time;
+    final Duration delta = duration - previousFrameTime;
+    previousFrameTime = duration;
+    final double dt = delta.inMicroseconds / 1e6;
 
     for (Tile tile in tiles) {
       if (gameState == GameState.solved) {
