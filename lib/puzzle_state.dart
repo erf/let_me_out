@@ -37,7 +37,9 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
   /// shuffle the tiles
   void shuffle() async {
-    List<Tile> tiles = value.tiles;
+    List<Tile> tiles = solved
+        .map((value) => Tile(value, GlobalKey(debugLabel: '$value')))
+        .toList();
     List<Tile> shuffled = List.from(tiles)..shuffle();
 
     do {
