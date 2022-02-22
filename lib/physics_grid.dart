@@ -97,7 +97,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
       if (puzzleState.gameState == GameState.solved && tile.solved) {
         tile.updateSolved(dt);
       } else {
-        tile.update(dt);
+        tile.update(dt, puzzleState.gameState);
       }
     }
 

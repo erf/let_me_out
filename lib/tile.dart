@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:let_me_out/puzzle_state.dart';
 
 class Tile {
   final int value;
@@ -18,19 +19,22 @@ class Tile {
 }
 
 extension TilePhysics on Tile {
-  bool shouldShake() {
+  bool shouldShake(GameState gameState) {
+    if (gameState == GameState.shuffle) {
+      return false;
+    }
     return Random().nextDouble() > (hover ? 0.93 : 0.97);
   }
 
   Offset randomShakeVector() {
-    final vel = Random().nextDouble() * (hover ? 420.0 : 64.0);
+    final vel = Random().nextDouble() * (hover ? 420.0 : 96.0);
     final angle = Random().nextDouble() * 2 * pi;
     return Offset(cos(angle), sin(angle)) * vel;
   }
 
-  void update(double dt) {
+  void update(double dt, GameState gameState) {
     Offset dir = target - position;
-    if (shouldShake()) {
+    if (shouldShake(gameState)) {
       dir += randomShakeVector();
     }
     final double dist = dir.distance;
