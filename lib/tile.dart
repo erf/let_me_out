@@ -8,8 +8,8 @@ class Tile {
   Offset target = Offset.zero;
   Offset position = Offset.zero;
   Offset velocity = Offset.zero;
-  bool hover = false;
 
+  bool hover = false;
   bool solved = false;
 
   Tile(this.value, this.key);
