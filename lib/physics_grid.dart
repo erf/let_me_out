@@ -27,7 +27,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
     puzzleStateNotifier.addListener(() {
       puzzleState = puzzleStateNotifier.value;
-      debugPrint('state changed ${puzzleState.gameState}');
+      //debugPrint('state changed ${puzzleState.gameState}');
       final gameState = puzzleState.gameState;
       if (gameState == GameState.shuffle) {
         initTilePositions(puzzleState);
@@ -38,7 +38,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
   // set the tile position at initialization
   void init(Duration duration) {
-    debugPrint('init');
+    //debugPrint('init');
     puzzleState = puzzleStateNotifier.value;
     initTilePositions(puzzleState);
     setState(() {});
