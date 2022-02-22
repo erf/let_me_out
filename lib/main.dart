@@ -5,6 +5,6 @@ import 'sound.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initSounds();
+  await Sound.instance.load();
   runApp(const PuzzleApp());
 }

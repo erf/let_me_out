@@ -94,7 +94,7 @@ class GridButton extends StatelessWidget {
       onPressed: puzzleStateNotifier.value.gameState == GameState.playing
           ? () async {
               puzzleStateNotifier.move(tile);
-              await soundPool.play(getSoundId(tile));
+              await Sound.instance.play(tile);
             }
           : null,
     );
