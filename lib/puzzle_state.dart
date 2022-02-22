@@ -25,7 +25,7 @@ class PuzzleState {
 class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   PuzzleStateNotifier(value) : super(value);
 
-  static const int shuffleTimeMs = 100;
+  static const int shuffleTimeMs = 140;
 
   /// create a new puzzle state with shuffled tiles
   static PuzzleStateNotifier init() {
@@ -44,17 +44,18 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       shuffled = List.from(tiles)..shuffle();
     } while (isSolved(shuffled));
 
+    // add new tiles one by one
+    List<Tile> newTiles = [];
     for (Tile tile in shuffled) {
-      tile.position = tiles.firstWhere((t) => t.value == tile.value).origin;
-      tile.solved = false;
+      newTiles.add(Tile(tile.value, tile.key));
       if (tile.value != -1) {
-        value = PuzzleState(shuffled, GameState.shuffled);
+        value = PuzzleState(newTiles, GameState.shuffled);
         soundPool.play(getSoundId(tile));
-        await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
       }
+      await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
     }
 
-    value = PuzzleState(shuffled, GameState.shuffled);
+    value = PuzzleState(newTiles, GameState.shuffled);
   }
 
   /// determine if puzzle is solved
