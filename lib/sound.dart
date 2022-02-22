@@ -4,14 +4,10 @@ import 'package:soundpool/soundpool.dart';
 import 'tile.dart';
 
 Soundpool soundPool = Soundpool.fromOptions(
-  options: const SoundpoolOptions(
-    maxStreams: 16,
-    streamType: StreamType.music,
-  ),
+  options: const SoundpoolOptions(maxStreams: 4),
 );
 
 final soundsIds = <String, int>{};
-int introSoundId = -1;
 
 Future<void> initSounds() async {
   final names = List.generate(15, (i) => "assets/sounds/sound_$i.mp3");
