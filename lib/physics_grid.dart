@@ -53,8 +53,12 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
   // get the tile offset relative to the grid parent
   Offset getTileOffset(Tile tile, Offset gridOffset) {
-    final RenderBox box =
-        tile.key.currentContext?.findRenderObject() as RenderBox;
+    final BuildContext? buildContext = tile.key.currentContext;
+    if (buildContext == null) {
+      debugPrint('BuildContext for tile ${tile.value} is null');
+      return Offset.zero;
+    }
+    final RenderBox box = buildContext.findRenderObject() as RenderBox;
     final Size size = box.size;
     final Offset offset = box
         .localToGlobal(gridOffset)
