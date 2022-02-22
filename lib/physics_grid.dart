@@ -4,10 +4,7 @@ import 'puzzle_state.dart';
 import 'tile.dart';
 
 class PhysicsGrid extends StatefulWidget {
-  final PuzzleState puzzleState;
-
-  const PhysicsGrid(
-    this.puzzleState, {
+  const PhysicsGrid({
     Key? key,
   }) : super(key: key);
 
@@ -18,31 +15,46 @@ class PhysicsGrid extends StatefulWidget {
 class _PhysicsGridState extends State<PhysicsGrid>
     with SingleTickerProviderStateMixin {
   List<Tile> tiles = [];
-  Duration previousFrameTime = Duration.zero;
+  Duration prevTime = Duration.zero;
   Size size = Size.zero;
+  late PuzzleState puzzleState;
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance?.addPostFrameCallback(init);
-  }
 
-  void initTilePositions() {
-    tiles = [];
-    final gridOffset = getGridOffset(context);
-    for (Tile tile in widget.puzzleState.tiles) {
-      tile.origin = getTileOffset(tile, gridOffset);
-      tile.target = tile.origin;
-      tiles.add(tile);
-    }
+    puzzleStateNotifier.addListener(() {
+      puzzleState = puzzleStateNotifier.value;
+      debugPrint('state changed ${puzzleState.gameState}');
+      final gameState = puzzleState.gameState;
+      if (gameState == GameState.shuffle) {
+        initTilePositions(puzzleState);
+      } else if (sizeDidChange()) {
+        initTilePositions(puzzleState);
+      }
+      setState(() {});
+    });
   }
 
   // set the tile position at initialization
   void init(Duration duration) {
-    initTilePositions();
+    debugPrint('_PhysicsGridState init');
+    puzzleState = puzzleStateNotifier.value;
+    initTilePositions(puzzleState);
     setState(() {});
     createTicker(_update).start();
+  }
+
+  void initTilePositions(PuzzleState puzzleState) {
+    tiles = [];
+    final gridOffset = getGridOffset(context);
+    for (Tile tile in puzzleState.tiles) {
+      tile.origin = getTileOffset(tile, gridOffset);
+      tile.target = tile.origin;
+      tiles.add(tile);
+    }
   }
 
   // get the grid offset relative to the grid parent
@@ -74,21 +86,13 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 
   void _update(Duration duration) {
-    final gameState = widget.puzzleState.gameState;
-    if (gameState == GameState.shuffled) {
-      initTilePositions();
-      puzzleStateNotifier.value = PuzzleState(tiles, GameState.playing);
-    } else if (sizeDidChange()) {
-      initTilePositions();
-    }
-
-    final Duration delta = duration - previousFrameTime;
-    previousFrameTime = duration;
+    final Duration delta = duration - prevTime;
+    prevTime = duration;
     final double dt = delta.inMicroseconds / 1e6;
 
     // update tile positions
     for (Tile tile in tiles) {
-      if (gameState == GameState.solved && tile.solved) {
+      if (puzzleState.gameState == GameState.solved && tile.solved) {
         tile.updateSolved(dt);
       } else {
         tile.update(dt);

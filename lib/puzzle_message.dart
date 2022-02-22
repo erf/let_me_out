@@ -41,7 +41,7 @@ class _PuzzleMessageState extends State<PuzzleMessage> {
     switch (gameState) {
       case GameState.intro:
         return const Text('LeT ME oUt!');
-      case GameState.shuffled:
+      case GameState.shuffle:
       case GameState.playing:
         return const SizedBox.shrink();
       case GameState.solved:

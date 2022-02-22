@@ -7,7 +7,7 @@ import 'tile.dart';
 
 enum GameState {
   intro,
-  shuffled,
+  shuffle,
   playing,
   solved,
 }
@@ -49,13 +49,13 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     for (Tile tile in shuffled) {
       newTiles.add(Tile(tile.value, tile.key));
       if (tile.value != -1) {
-        value = PuzzleState(newTiles, GameState.shuffled);
         Sound.instance.play(tile);
       }
+      value = PuzzleState(newTiles, GameState.shuffle);
       await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
     }
-
-    value = PuzzleState(newTiles, GameState.shuffled);
+    value = PuzzleState(newTiles, GameState.shuffle);
+    value = PuzzleState(newTiles, GameState.playing);
   }
 
   /// determine if puzzle is solved
@@ -100,10 +100,10 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
           tile.velocity = getRandomSolvedVector();
           tile.solved = true;
           if (tile.value != -1) {
-            value = PuzzleState(puzzle, GameState.solved);
             Sound.instance.play(tile);
-            await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
           }
+          value = PuzzleState(puzzle, GameState.solved);
+          await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
         }
         value = PuzzleState(puzzle, GameState.solved);
       } else {
