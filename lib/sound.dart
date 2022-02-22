@@ -6,11 +6,11 @@ import 'tile.dart';
 class Sound {
   static final Sound instance = Sound._();
 
-  Soundpool soundPool = Soundpool.fromOptions(
+  final _soundPool = Soundpool.fromOptions(
     options: const SoundpoolOptions(maxStreams: 4),
   );
 
-  Map<String, int> soundIdsMap = {};
+  Map<String, int> _soundIdMap = {};
 
   Sound._();
 
@@ -19,11 +19,11 @@ class Sound {
 
     final soundIdFutures = names
         .map((name) => rootBundle.load(name))
-        .map((future) => future.then((bytes) => soundPool.load(bytes)));
+        .map((future) => future.then((bytes) => _soundPool.load(bytes)));
 
     final soundIds = await Future.wait(soundIdFutures);
 
-    soundIdsMap = names.asMap().map((i, name) => MapEntry(name, soundIds[i]));
+    _soundIdMap = names.asMap().map((i, name) => MapEntry(name, soundIds[i]));
   }
 
   String getSoundName(int value) {
@@ -31,10 +31,10 @@ class Sound {
   }
 
   int getSoundId(Tile tile) {
-    return soundIdsMap[getSoundName(tile.value)]!;
+    return _soundIdMap[getSoundName(tile.value)]!;
   }
 
   Future<int> play(Tile tile) async {
-    return await soundPool.play(getSoundId(tile));
+    return await _soundPool.play(getSoundId(tile));
   }
 }
