@@ -7,7 +7,7 @@ Soundpool soundPool = Soundpool.fromOptions(
   options: const SoundpoolOptions(maxStreams: 4),
 );
 
-final soundIdsMap = <String, int>{};
+Map<String, int> soundIdsMap = {};
 
 String getSoundName(int tileValue) {
   return 'assets/sounds/sound_$tileValue.mp3';
@@ -26,6 +26,5 @@ Future<void> initSounds() async {
 
   final soundIds = await Future.wait(soundIdFutures);
 
-  soundIdsMap
-      .addAll(names.asMap().map((i, name) => MapEntry(name, soundIds[i])));
+  soundIdsMap = names.asMap().map((i, name) => MapEntry(name, soundIds[i]));
 }
