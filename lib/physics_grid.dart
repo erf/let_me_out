@@ -28,10 +28,10 @@ class _PhysicsGridState extends State<PhysicsGrid>
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback(_init);
+    WidgetsBinding.instance?.addPostFrameCallback(init);
   }
 
-  void _buildTilePositions() {
+  void initTilePositions() {
     tiles = [];
     final gridOffset = getGridOffset(context);
     for (Tile tile in widget.puzzleState.tiles) {
@@ -42,11 +42,9 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 
   // set the tile position at initialization
-  void _init(Duration duration) {
-    _buildTilePositions();
-
+  void init(Duration duration) {
+    initTilePositions();
     setState(() {});
-
     createTicker(_update).start();
   }
 
@@ -77,62 +75,26 @@ class _PhysicsGridState extends State<PhysicsGrid>
   void _update(Duration duration) {
     final gameState = widget.puzzleState.gameState;
     if (gameState == GameState.shuffled) {
-      _buildTilePositions();
+      initTilePositions();
       puzzleStateNotifier.value = PuzzleState(tiles, GameState.playing);
     } else if (sizeDidChange()) {
-      _buildTilePositions();
+      initTilePositions();
     }
 
     final Duration delta = duration - previousFrameTime;
     previousFrameTime = duration;
     final double dt = delta.inMicroseconds / 1e6;
 
+    // update tile positions
     for (Tile tile in tiles) {
-      if (gameState == GameState.solved) {
-        if (tile.solved) {
-          _updateSolvedPhysics(tile, dt);
-        } else {
-          _updateTilePhysics(tile, dt);
-        }
+      if (gameState == GameState.solved && tile.solved) {
+        tile.updateSolved(dt);
       } else {
-        _updateTilePhysics(tile, dt);
+        tile.update(dt);
       }
     }
 
     setState(() {});
-  }
-
-  bool _shouldShake(Tile tile) {
-    return Random().nextDouble() > (tile.hover ? 0.93 : 0.97);
-  }
-
-  void _updateSolvedPhysics(Tile tile, double dt) {
-    if (dt > 0.0001) {
-      const Offset gravity = Offset(0.0, 200.0);
-      const double dragCof = 0.001;
-      final Offset drag = tile.velocity * -dragCof;
-      tile.velocity += gravity * dt;
-      tile.position += tile.velocity * dt + gravity * (dt * dt * 0.5) + drag;
-    }
-  }
-
-  Offset getRandomShakeVector(Tile tile) {
-    final vel = Random().nextDouble() * (tile.hover ? 420.0 : 64.0);
-    final angle = Random().nextDouble() * 2 * pi;
-    return Offset(cos(angle), sin(angle)) * vel;
-  }
-
-  void _updateTilePhysics(Tile tile, double dt) {
-    Offset dir = tile.target - tile.position;
-    if (_shouldShake(tile)) {
-      dir += getRandomShakeVector(tile);
-    }
-    double dist = dir.distance;
-    if (dist > 0.9 && dt > 0.0001) {
-      final dirNorm = dir / dist;
-      final speed = 2.5 * dist;
-      tile.position += dirNorm * dt * speed;
-    }
   }
 
   @override
