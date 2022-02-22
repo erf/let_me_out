@@ -24,8 +24,6 @@ class _PhysicsGridState extends State<PhysicsGrid>
   double prevTime = 0.0;
   Size size = Size.zero;
 
-  late Ticker ticker;
-
   @override
   void initState() {
     super.initState();
@@ -49,13 +47,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
     setState(() {});
 
-    ticker = createTicker(_update)..start();
-  }
-
-  @override
-  void dispose() {
-    ticker.dispose();
-    super.dispose();
+    createTicker(_update).start();
   }
 
   // get the grid offset relative to the grid parent
