@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 
 import 'puzzle_state.dart';
 import 'tile.dart';
