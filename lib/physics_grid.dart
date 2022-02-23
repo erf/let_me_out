@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import 'puzzle_state.dart';
 import 'tile.dart';
@@ -18,6 +19,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   Duration prevTime = Duration.zero;
   Size size = Size.zero;
   late PuzzleState puzzleState;
+  late Ticker ticker;
 
   @override
   void initState() {
@@ -27,7 +29,6 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
     puzzleStateNotifier.addListener(() {
       puzzleState = puzzleStateNotifier.value;
-      //debugPrint('state changed ${puzzleState.gameState}');
       final gameState = puzzleState.gameState;
       if (gameState == GameState.shuffle) {
         initTilePositions(puzzleState);
@@ -36,13 +37,19 @@ class _PhysicsGridState extends State<PhysicsGrid>
     });
   }
 
+  @override
+  void dispose() {
+    ticker.dispose();
+
+    super.dispose();
+  }
+
   // set the tile position at initialization
   void init(Duration duration) {
-    //debugPrint('init');
     puzzleState = puzzleStateNotifier.value;
     initTilePositions(puzzleState);
     setState(() {});
-    createTicker(_update).start();
+    ticker = createTicker(_update)..start();
   }
 
   void initTilePositions(PuzzleState puzzleState) {
@@ -65,7 +72,6 @@ class _PhysicsGridState extends State<PhysicsGrid>
   Offset getTileOffset(Tile tile, Offset gridOffset) {
     final BuildContext? buildContext = tile.key.currentContext;
     if (buildContext == null) {
-      //debugPrint('BuildContext for tile ${tile.value} is null');
       return Offset.zero;
     }
     final RenderBox box = buildContext.findRenderObject() as RenderBox;
