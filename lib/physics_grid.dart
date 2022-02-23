@@ -39,7 +39,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     puzzleStateNotifier.addListener(() {
       puzzleState = puzzleStateNotifier.value;
       if (puzzleState.gameState == GameState.shuffle) {
-        initTilePositions();
+        setTilePositions();
       }
       setState(() {});
     });
@@ -55,13 +55,13 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
   // set the tile position at initialization and start the update ticker
   void init(Duration duration) {
-    initTilePositions();
+    setTilePositions();
     setState(() {});
     ticker = createTicker(_update)..start();
   }
 
   // update the tile positions
-  void initTilePositions() {
+  void setTilePositions() {
     final gridOffset = getGridOffset(context);
     for (Tile tile in puzzleState.tiles) {
       tile.origin = getTileOffset(tile, gridOffset);
@@ -100,7 +100,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   void _update(Duration duration) {
     // update position of tiles if the size changed
     if (sizeDidChange()) {
-      initTilePositions();
+      setTilePositions();
     }
 
     // get the time since the last update
