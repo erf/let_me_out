@@ -127,8 +127,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 class TilesPainter extends CustomPainter {
   final List<Tile> tiles;
 
-  final brush = Paint()
-    ..color = const Color.fromARGB(255, 235, 92, 223).withAlpha(72);
+  final brush = Paint()..color = const Color(0x48eb5cdf);
 
   TilesPainter(this.tiles);
 

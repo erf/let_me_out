@@ -19,15 +19,16 @@ class Tile {
 }
 
 extension TilePhysics on Tile {
+  // update tile physics
   void update(double dt, GameState gameState) {
     if (gameState == GameState.solved && this.solved) {
-      _updateGravity(dt);
+      _updateSolved(dt);
     } else {
       _updateAttraction(dt, gameState);
     }
   }
 
-  void _updateGravity(double dt) {
+  void _updateSolved(double dt) {
     if (dt < 0.0001) {
       return;
     }
