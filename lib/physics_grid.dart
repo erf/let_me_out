@@ -48,7 +48,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     super.dispose();
   }
 
-  // set the tile position at initialization
+  // set the tile position at initialization and start the update ticker
   void init(Duration duration) {
     puzzleState = puzzleStateNotifier.value;
     initTilePositions(puzzleState);
@@ -56,6 +56,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     ticker = createTicker(_update)..start();
   }
 
+  // update the tile positions
   void initTilePositions(PuzzleState puzzleState) {
     tiles.clear();
     final gridOffset = getGridOffset(context);
