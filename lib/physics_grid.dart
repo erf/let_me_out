@@ -7,7 +7,10 @@ import 'tile.dart';
 /// A grid on top of the button grid with particles that can move freely and are
 /// attracted to the buttons
 class PhysicsGrid extends StatefulWidget {
-  const PhysicsGrid({
+  final PuzzleState puzzleState;
+
+  const PhysicsGrid(
+    this.puzzleState, {
     Key? key,
   }) : super(key: key);
 
@@ -17,7 +20,6 @@ class PhysicsGrid extends StatefulWidget {
 
 class _PhysicsGridState extends State<PhysicsGrid>
     with SingleTickerProviderStateMixin {
-  final List<Tile> tiles = [];
   Duration prevTime = Duration.zero;
   Size size = Size.zero;
   late PuzzleState puzzleState;
@@ -27,15 +29,17 @@ class _PhysicsGridState extends State<PhysicsGrid>
   void initState() {
     super.initState();
 
-    // init tiles
+    // set initial state
+    puzzleState = widget.puzzleState;
+
+    // init tiles after first frame
     WidgetsBinding.instance?.addPostFrameCallback(init);
 
     // listen to state changes
     puzzleStateNotifier.addListener(() {
       puzzleState = puzzleStateNotifier.value;
-      final gameState = puzzleState.gameState;
-      if (gameState == GameState.shuffle) {
-        initTilePositions(puzzleState);
+      if (puzzleState.gameState == GameState.shuffle) {
+        initTilePositions();
       }
       setState(() {});
     });
@@ -51,20 +55,17 @@ class _PhysicsGridState extends State<PhysicsGrid>
 
   // set the tile position at initialization and start the update ticker
   void init(Duration duration) {
-    puzzleState = puzzleStateNotifier.value;
-    initTilePositions(puzzleState);
+    initTilePositions();
     setState(() {});
     ticker = createTicker(_update)..start();
   }
 
   // update the tile positions
-  void initTilePositions(PuzzleState puzzleState) {
-    tiles.clear();
+  void initTilePositions() {
     final gridOffset = getGridOffset(context);
     for (Tile tile in puzzleState.tiles) {
       tile.origin = getTileOffset(tile, gridOffset);
       tile.target = tile.origin;
-      tiles.add(tile);
     }
   }
 
@@ -99,7 +100,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   void _update(Duration duration) {
     // update position of tiles if the size changed
     if (sizeDidChange()) {
-      initTilePositions(puzzleState);
+      initTilePositions();
     }
 
     // get the time since the last update
@@ -108,7 +109,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     final double dt = delta.inMicroseconds / 1e6;
 
     // update tile physics
-    for (Tile tile in tiles) {
+    for (Tile tile in puzzleState.tiles) {
       tile.update(dt, puzzleState.gameState);
     }
 
@@ -119,7 +120,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: TilesPainter(tiles),
+      painter: TilesPainter(puzzleState.tiles),
     );
   }
 }

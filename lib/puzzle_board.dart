@@ -35,7 +35,7 @@ class PuzzleBoard extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       ButtonGrid(puzzleState),
-                      const PhysicsGrid(),
+                      PhysicsGrid(puzzleState),
                       PuzzleMessage(puzzleState),
                     ],
                   ),
