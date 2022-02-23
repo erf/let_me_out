@@ -19,41 +19,49 @@ class Tile {
 }
 
 extension TilePhysics on Tile {
-  bool shouldShake(GameState gameState) {
+  void update(double dt, GameState gameState) {
+    if (gameState == GameState.solved && this.solved) {
+      _updateGravity(dt);
+    } else {
+      _updateAttraction(dt, gameState);
+    }
+  }
+
+  void _updateGravity(double dt) {
+    if (dt < 0.0001) {
+      return;
+    }
+    const gravity = Offset(0.0, 200.0);
+    const dragCof = 0.001;
+    final drag = velocity * -dragCof;
+    velocity += gravity * dt;
+    position += velocity * dt + gravity * (dt * dt * 0.5) + drag;
+  }
+
+  Offset _randomShakeVector() {
+    final vel = Random().nextDouble() * (hover ? 420.0 : 96.0);
+    final angle = Random().nextDouble() * 2 * pi;
+    return Offset(cos(angle), sin(angle)) * vel;
+  }
+
+  bool _shouldShake(GameState gameState) {
     if (gameState == GameState.shuffle) {
       return false;
     }
     return Random().nextDouble() > (hover ? 0.93 : 0.97);
   }
 
-  Offset randomShakeVector() {
-    final vel = Random().nextDouble() * (hover ? 420.0 : 96.0);
-    final angle = Random().nextDouble() * 2 * pi;
-    return Offset(cos(angle), sin(angle)) * vel;
-  }
-
-  void update(double dt, GameState gameState) {
+  void _updateAttraction(double dt, GameState gameState) {
     Offset dir = target - position;
-    if (shouldShake(gameState)) {
-      dir += randomShakeVector();
+    if (_shouldShake(gameState)) {
+      dir += _randomShakeVector();
     }
-    final double dist = dir.distance;
+    final dist = dir.distance;
     if (dist < 0.9 || dt < 0.0001) {
       return;
     }
     final dirNorm = dir / dist;
     final speed = 2.5 * dist;
     position += dirNorm * dt * speed;
-  }
-
-  void updateSolved(double dt) {
-    if (dt < 0.0001) {
-      return;
-    }
-    const Offset gravity = Offset(0.0, 200.0);
-    const double dragCof = 0.001;
-    final Offset drag = velocity * -dragCof;
-    velocity += gravity * dt;
-    position += velocity * dt + gravity * (dt * dt * 0.5) + drag;
   }
 }

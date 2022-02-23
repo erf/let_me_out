@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'puzzle_state.dart';
 import 'tile.dart';
 
+/// a grid on top of the button grid with particles that are attracted to the buttons
 class PhysicsGrid extends StatefulWidget {
   const PhysicsGrid({
     Key? key,
@@ -15,7 +16,7 @@ class PhysicsGrid extends StatefulWidget {
 
 class _PhysicsGridState extends State<PhysicsGrid>
     with SingleTickerProviderStateMixin {
-  List<Tile> tiles = [];
+  final List<Tile> tiles = [];
   Duration prevTime = Duration.zero;
   Size size = Size.zero;
   late PuzzleState puzzleState;
@@ -25,8 +26,10 @@ class _PhysicsGridState extends State<PhysicsGrid>
   void initState() {
     super.initState();
 
+    // init tiles
     WidgetsBinding.instance?.addPostFrameCallback(init);
 
+    // listen to state changes
     puzzleStateNotifier.addListener(() {
       puzzleState = puzzleStateNotifier.value;
       final gameState = puzzleState.gameState;
@@ -37,6 +40,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     });
   }
 
+  // dispose of the ticker
   @override
   void dispose() {
     ticker.dispose();
@@ -53,7 +57,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 
   void initTilePositions(PuzzleState puzzleState) {
-    tiles = [];
+    tiles.clear();
     final gridOffset = getGridOffset(context);
     for (Tile tile in puzzleState.tiles) {
       tile.origin = getTileOffset(tile, gridOffset);
@@ -82,6 +86,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     return offset;
   }
 
+  // check if the window size has changed
   bool sizeDidChange() {
     final Size newSize = MediaQuery.of(context).size;
     final didChange = size != newSize;
@@ -90,23 +95,22 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 
   void _update(Duration duration) {
+    // update position of tiles if the size changed
     if (sizeDidChange()) {
       initTilePositions(puzzleState);
     }
 
+    // get the time since the last update
     final Duration delta = duration - prevTime;
     prevTime = duration;
     final double dt = delta.inMicroseconds / 1e6;
 
-    // update tile positions
+    // update tile physics
     for (Tile tile in tiles) {
-      if (puzzleState.gameState == GameState.solved && tile.solved) {
-        tile.updateSolved(dt);
-      } else {
-        tile.update(dt, puzzleState.gameState);
-      }
+      tile.update(dt, puzzleState.gameState);
     }
 
+    // render points with new positions
     setState(() {});
   }
 
@@ -118,6 +122,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 }
 
+// paint the tile particles as circles
 class TilesPainter extends CustomPainter {
   final List<Tile> tiles;
 
