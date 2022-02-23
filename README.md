@@ -1,4 +1,6 @@
-# puzzle_particles
+# let me out
+
+Google sliding puzzle hack comp
 
 https://flutterhack.devpost.com/
 
