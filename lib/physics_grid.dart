@@ -4,7 +4,8 @@ import 'package:flutter/scheduler.dart';
 import 'puzzle_state.dart';
 import 'tile.dart';
 
-/// a grid on top of the button grid with particles that are attracted to the buttons
+/// A grid on top of the button grid with particles that can move freely and are
+/// attracted to the buttons
 class PhysicsGrid extends StatefulWidget {
   const PhysicsGrid({
     Key? key,
@@ -127,7 +128,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 class TilesPainter extends CustomPainter {
   final List<Tile> tiles;
 
-  final brush = Paint()..color = const Color(0x48eb5cdf);
+  static final brush = Paint()..color = const Color(0x48eb5cdf);
 
   TilesPainter(this.tiles);
 
