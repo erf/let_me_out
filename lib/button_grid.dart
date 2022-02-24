@@ -60,24 +60,23 @@ class GridButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isSolved = puzzleStateNotifier.value.gameState == GameState.solved;
+    if (isSolved) {
+      return const SizedBox();
+    }
     if (tile.value == -1) {
       return DecoratedBox(
         key: tile.key,
         decoration: const BoxDecoration(color: Colors.transparent),
       );
     }
-    if (puzzleStateNotifier.value.gameState == GameState.solved) {
-      return const SizedBox();
-    }
-    final isSolved = puzzleStateNotifier.value.gameState == GameState.solved;
-
     return OutlinedButton(
       key: tile.key,
       child: Text(
         tile.value.toString(),
         textAlign: TextAlign.center,
         style: TextStyle(
-          color: isSolved ? Colors.black26 : Colors.black.withAlpha(154),
+          color: isSolved ? Colors.black26 : Colors.black87,
           fontSize: 14,
         ),
       ),
