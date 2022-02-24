@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'puzzle_page.dart';
+import 'puzzle_board.dart';
 import 'puzzle_theme.dart';
 
 class PuzzleApp extends StatelessWidget {
@@ -11,7 +11,9 @@ class PuzzleApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: themeData,
-      home: const PuzzlePage(),
+      home: const Material(
+        child: PuzzleBoard(),
+      ),
     );
   }
 }
