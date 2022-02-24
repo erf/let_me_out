@@ -16,7 +16,8 @@ class ShuffleButton extends StatefulWidget {
 }
 
 class _ShuffleButtonState extends State<ShuffleButton> {
-  bool visible = false;
+  bool initializing = true;
+  double turns = 0.0;
 
   @override
   void initState() {
@@ -24,32 +25,47 @@ class _ShuffleButtonState extends State<ShuffleButton> {
 
     WidgetsBinding.instance?.addPostFrameCallback((delayed) {
       setState(() {
-        visible = true;
+        initializing = false;
       });
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    return _buildAnimatedButton();
+  }
+
+  Widget _buildAnimatedButton() {
     bool shuffeling = widget.puzzleState.gameState == GameState.shuffle;
-    bool disable = visible == false || shuffeling;
-    const int shuffleFadeInTimeMs = 250;
-    return AnimatedOpacity(
-      opacity: disable ? 0.0 : 1.0,
-      duration: Duration(
-          milliseconds: shuffeling ? shuffleFadeInTimeMs : introFadeInTimeMs),
-      child: IgnorePointer(
-        ignoring: disable,
-        child: IconButton(
-          icon: const Icon(
-            Icons.refresh,
-            color: Colors.black38,
-            size: 18,
-          ),
-          onPressed: () {
-            puzzleStateNotifier.shuffle();
-          },
+    bool disable = shuffeling || initializing;
+    return AnimatedRotation(
+      turns: turns,
+      duration: const Duration(milliseconds: fadeInTimeMs),
+      curve: Curves.easeOutCubic,
+      child: AnimatedOpacity(
+        opacity: disable ? 0.0 : 1.0,
+        duration: const Duration(milliseconds: fadeInTimeMs),
+        curve: Curves.easeInCubic,
+        child: _buildButton(disable),
+      ),
+    );
+  }
+
+  IgnorePointer _buildButton(bool disable) {
+    return IgnorePointer(
+      ignoring: disable,
+      child: IconButton(
+        icon: const Icon(
+          Icons.refresh,
+          color: Colors.black38,
+          size: 18,
         ),
+        onPressed: () {
+          puzzleStateNotifier.shuffle();
+          setState(() {
+            turns += 1.0;
+          });
+        },
       ),
     );
   }

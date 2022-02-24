@@ -1,1 +1,1 @@
-const int introFadeInTimeMs = 1000;
+const int fadeInTimeMs = 1000;

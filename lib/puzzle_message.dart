@@ -32,7 +32,7 @@ class _PuzzleMessageState extends State<PuzzleMessage> {
     final gameState = widget.puzzleState.gameState;
     return AnimatedOpacity(
       opacity: opacity,
-      duration: const Duration(milliseconds: introFadeInTimeMs),
+      duration: const Duration(milliseconds: fadeInTimeMs),
       curve: Curves.easeIn,
       child: getMessage(gameState),
     );
