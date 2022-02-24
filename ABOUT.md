@@ -20,13 +20,13 @@ First i made a very simple sliding puzzle game to get started. The logic was pre
 
 I knew from the start i wanted to simulate particles, and i imagined the particles were able to move around freely behind the grid of buttons. So i added two grids in a `Stack` - one with the buttons that the users could press to move the tiles, and another layer with simulated particles that got its position from the buttons using `GlobalKey`s.
 
-I previously build the package [flim](https://github.com/erf/flim) for simulating sprites, so i knew i had to use a `StatefulWidget` with the `SingleTickerProviderStateMixin` in addition to a `CustomPainter`, if i wanted to simulate some particles effectively and with full freedom. I used two physics models, one for the attraction towards buttons, and one for the gravity in solved state. I initially had a more plans to use particles, but i think the minimal approach worked out OK.
+I previously build the package [flim](https://github.com/erf/flim) for simulating sprites, so i knew i had to use a `StatefulWidget` with the `SingleTickerProviderStateMixin` in addition to a `CustomPainter`, if i wanted to simulate some particles effectively and with full freedom. I used two physics models, one for the attraction towards buttons, and one for the gravity in solved state. I also add some random movement vectors to make the particles more alive and make them larger when hovered. I initially had more plans to use particles, but i think the minimal approach worked out OK.
 
 I'm fan a minimal design approach, like in my other [apps](https://apptakk.com), so i ended up with a simple grid of squares and some circular particles inside. I love pastel colors and the pink particles, represented a fresh contrast with the grey squares.
 
 I used to produce beats before, and i noticed the 4x4 grid is similar arranged as the Akai MPC series of samplers, so i thought it would be fun to add a sound to each square. I used my M8 tracker to find a nice synth sound. Played at different notes based on the tile value. It's sounding a bit eerie when played in random, as i shuffled the tiles at the start of each new game.
 
-After playing around with these ideas, i kind of felt as the puzzle was telling a story. The story of some colorful particles trapped inside grey squares and which was trying to escape. Perhaps parallels can be drawn as to how we sometimes feel stuck in life.
+After playing around with these ideas, i kind of felt as the puzzle was telling a story. The story of some colorful particles trapped inside grey squares and which was trying to escape. Perhaps parallels can be drawn as to how we sometimes feel stuck in life. That's why i ended up with the name "Let Me Out !".
 
 ## Challenges we ran into
 
