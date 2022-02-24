@@ -47,12 +47,11 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   /// shuffle the tiles
   void shuffle() async {
     List<Tile> tiles = createSolvedTiles();
-    //List<Tile> shuffled = List.from(tiles)..shuffle();
-    List<Tile> shuffled = List.from(tiles);
+    List<Tile> shuffled = List.from(tiles)..shuffle();
 
-    //do {
-    //  shuffled = List.from(tiles)..shuffle();
-    //} while (isSolved(shuffled));
+    do {
+      shuffled = List.from(tiles)..shuffle();
+    } while (isSolved(shuffled));
 
     // add new tiles one by one
     List<Tile> newTiles = [];
