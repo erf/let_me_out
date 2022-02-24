@@ -18,9 +18,9 @@ I first tried to build on the original puzzle hack code, but i felt the architec
 
 First i made a very simple sliding puzzle game to get started. The logic was pretty easy to get right and i used a `ValueNotifer` to hold the puzzle state (similar to what I've described in my Medium article [Pragmatic State Handling in Flutter](https://medium.com/@erlendf/pragmatic-state-handling-in-flutter-d8c9bf5d7d2)).
 
-I knew from the start i wanted to simulate particles, and i imagined the particles were able to move around freely behind the grid of buttons. So i added two grids in a `Stack` - one with the buttons that the users could press to move the tiles, and another layer with simulated particles that got its position from the buttons using `GlobalKey`s.
+I knew from the start i wanted to simulate particles, and i imagined the particles were able to move around freely behind the grid of buttons. So i added two layers in a `Stack` - a grid with the buttons that the users could press to move the tiles, and another widget which simulates particles, that get their positions from the buttons using `GlobalKey`s.
 
-I previously build the package [flim](https://github.com/erf/flim) for simulating sprites, so i knew i had to use a `StatefulWidget` with the `SingleTickerProviderStateMixin` in addition to a `CustomPainter`, if i wanted to simulate some particles effectively and with full freedom. I used two physics models, one for the attraction towards buttons, and one for the gravity in solved state. I also add some random movement vectors to make the particles more alive and make them larger when hovered. I initially had more plans to use particles, but i think the minimal approach worked out OK.
+I previously build the package [flim](https://github.com/erf/flim) for simulating sprites, so i knew i had to use a `StatefulWidget` with the `SingleTickerProviderStateMixin` in addition to a `CustomPainter`, if i wanted to simulate particles effectively and without constraints. I used two physics models, one for the button attraction whilst playing, and one for gravity in the solved state. I also add some random movement vectors to make the particles seem more alive and make them larger when hovered. I initially had more plans to use particles, but i think the minimal approach worked out OK.
 
 I'm fan a minimal design approach, like in my other [apps](https://apptakk.com), so i ended up with a simple grid of squares and some circular particles inside. I love pastel colors and the pink particles, represented a fresh contrast with the grey squares.
 
@@ -30,7 +30,7 @@ After playing around with these ideas, i kind of felt as the puzzle was telling 
 
 ## Challenges we ran into
 
-There were some issues with drawing large points on iOS, so i made a github [issue](https://github.com/flutter/flutter/issues/98880). I however solved it using `canvas.drawCircle` instead.
+There were some issues with drawing large points on iOS, so i made a github [issue](https://github.com/flutter/flutter/issues/98880). I however solved it using `canvas.drawCircle` instead. I will be updating this issue with the proper code sample.
 
 There was a bit challenging to get the state changes of the puzzle to update the particle positions, without creating too many state changes and rebuilds. I do however think i found a solution that works. Perhaps this could be revisited.
 
