@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
 import 'puzzle_state.dart';
 
 class MusicModeButton extends StatefulWidget {
@@ -12,21 +13,43 @@ class MusicModeButton extends StatefulWidget {
 }
 
 class _MusicModeButtonState extends State<MusicModeButton> {
+  bool initializing = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((delayed) {
+      setState(() {
+        initializing = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isMusicMode = widget.puzzleState.gameState == GameState.musicMode;
-
-    return IconButton(
-      icon: Icon(
-        Icons.music_note_outlined,
-        color: isMusicMode
-            ? Colors.purpleAccent.shade100
-            : Colors.purpleAccent.shade100.withAlpha(100),
-        size: 17,
+    bool shuffeling = widget.puzzleState.gameState == GameState.shuffle;
+    bool disable = shuffeling || initializing;
+    return IgnorePointer(
+      ignoring: disable,
+      child: AnimatedOpacity(
+        opacity: disable ? 0.0 : 1.0,
+        duration: const Duration(milliseconds: fadeInTimeMs),
+        curve: Curves.easeInCubic,
+        child: IconButton(
+          icon: Icon(
+            Icons.music_note_outlined,
+            color: isMusicMode
+                ? Colors.purpleAccent.shade100
+                : Colors.purpleAccent.shade100.withAlpha(100),
+            size: 17,
+          ),
+          onPressed: () {
+            puzzleStateNotifier.toggleMusicMode();
+          },
+        ),
       ),
-      onPressed: () {
-        puzzleStateNotifier.toggleMusicMode();
-      },
     );
   }
 }
