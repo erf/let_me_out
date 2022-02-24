@@ -3,6 +3,7 @@ import 'package:soundpool/soundpool.dart';
 
 import 'tile.dart';
 
+/// Sound manager
 class Sound {
   static final Sound instance = Sound._();
 

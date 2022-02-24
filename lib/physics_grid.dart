@@ -4,8 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'puzzle_state.dart';
 import 'tile.dart';
 
-/// A grid on top of the button grid with particles that can move freely and are
-/// attracted to the buttons
+/// A set of particles that are attracted to the buttons in the grid.
 class PhysicsGrid extends StatefulWidget {
   final PuzzleState puzzleState;
 
@@ -60,7 +59,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     ticker = createTicker(_update)..start();
   }
 
-  // update the tile positions
+  /// Set the tile positions.
   void setTilePositions() {
     final gridOffset = getGridOffset(context);
     for (Tile tile in puzzleState.tiles) {
@@ -69,13 +68,13 @@ class _PhysicsGridState extends State<PhysicsGrid>
     }
   }
 
-  // get the grid offset relative to the grid parent
+  /// Get the grid offset relative to the grid parent.
   Offset getGridOffset(BuildContext context) {
     final renderBox = context.findRenderObject() as RenderBox;
     return renderBox.globalToLocal(Offset.zero);
   }
 
-  // get the tile offset relative to the grid parent
+  /// Get the tile offset relative to the grid parent.
   Offset getTileOffset(Tile tile, Offset gridOffset) {
     final BuildContext? buildContext = tile.key.currentContext;
     if (buildContext == null) {
@@ -97,6 +96,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
     return didChange;
   }
 
+  /// Update tile positions and render.
   void _update(Duration duration) {
     // update position of tiles if the size changed
     if (sizeDidChange()) {
@@ -125,7 +125,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
   }
 }
 
-// paint the tile particles as circles
+/// Paint the tile particles as circles.
 class TilesPainter extends CustomPainter {
   final List<Tile> tiles;
 

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'sound.dart';
 import 'tile.dart';
 
+/// The game state enum
 enum GameState {
   intro,
   shuffle,
@@ -12,6 +13,7 @@ enum GameState {
   solved,
 }
 
+/// The game state of tiles and state
 class PuzzleState {
   final List<Tile> tiles;
   final GameState gameState;
@@ -22,6 +24,7 @@ class PuzzleState {
   );
 }
 
+/// A state notifier for GameState.
 class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   PuzzleStateNotifier(value) : super(value);
 
@@ -101,7 +104,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
       if (isSolved(tiles)) {
         for (Tile tile in tiles) {
-          tile.velocity = getRandomSolvedVector();
+          tile.velocity = _getRandomExplosionVector();
           tile.solved = true;
           value = PuzzleState(tiles, GameState.solved);
           if (tile.value != -1) {
@@ -116,13 +119,14 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     }
   }
 
-  Offset getRandomSolvedVector() {
+  Offset _getRandomExplosionVector() {
     final vel = Random().nextDouble() * 300.0 + 100.0;
     final angle = Random().nextDouble() * pi + pi;
     return Offset(cos(angle), sin(angle)) * vel;
   }
 }
 
+/// The puzzle state notifier
 final puzzleStateNotifier = PuzzleStateNotifier.init();
 
 final List<int> grid = List.generate(16, (index) => index);
