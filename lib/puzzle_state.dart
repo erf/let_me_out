@@ -27,7 +27,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
   static const int shuffleTimeMs = 140;
 
-  static createTiles() {
+  static createSolvedTiles() {
     return solved
         .map((value) => Tile(value, GlobalKey(debugLabel: '$value')))
         .toList();
@@ -35,12 +35,13 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
   /// create a new puzzle state with shuffled tiles
   static PuzzleStateNotifier init() {
-    return PuzzleStateNotifier(PuzzleState(createTiles(), GameState.intro));
+    return PuzzleStateNotifier(
+        PuzzleState(createSolvedTiles(), GameState.intro));
   }
 
   /// shuffle the tiles
   void shuffle() async {
-    List<Tile> tiles = createTiles();
+    List<Tile> tiles = createSolvedTiles();
     List<Tile> shuffled = List.from(tiles)..shuffle();
 
     do {
