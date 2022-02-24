@@ -4,7 +4,7 @@ I was inspired to create pretty visuals and learn more about animations in Flutt
 
 I also wanted to challenge myself and perhaps create something i could showcase for future employers.
 
-Winning a price would not be too shabby, either ;)
+Winning a price would not be too shabby either ;)
 
 ## What it does
 
