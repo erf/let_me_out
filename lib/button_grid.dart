@@ -33,6 +33,7 @@ class _ButtonGridState extends State<ButtonGrid> {
   @override
   Widget build(BuildContext context) {
     final tiles = widget.puzzleState.tiles;
+    final isMusicMode = widget.puzzleState.gameState == GameState.musicMode;
     return AnimatedOpacity(
       opacity: opacity,
       duration: const Duration(milliseconds: 1000),
@@ -45,7 +46,7 @@ class _ButtonGridState extends State<ButtonGrid> {
         childAspectRatio: 1.0,
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
-        reverse: true,
+        reverse: isMusicMode,
       ),
     );
   }
