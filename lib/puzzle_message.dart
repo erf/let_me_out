@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:let_me_out/constants.dart';
 
 import 'puzzle_state.dart';
 
@@ -31,7 +32,7 @@ class _PuzzleMessageState extends State<PuzzleMessage> {
     final gameState = widget.puzzleState.gameState;
     return AnimatedOpacity(
       opacity: opacity,
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: introFadeInTimeMs),
       curve: Curves.easeIn,
       child: getMessage(gameState),
     );
