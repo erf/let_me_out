@@ -47,6 +47,8 @@ class _PuzzleMessageState extends State<PuzzleMessage> {
         return const SizedBox.shrink();
       case GameState.solved:
         return const Text('sOLVEd');
+      case GameState.musicMode:
+        return const Text('MuSiC MoDe');
       default:
         return const SizedBox.shrink();
     }

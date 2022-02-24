@@ -6,6 +6,7 @@ import 'package:let_me_out/puzzle_state.dart';
 class Tile {
   final int value;
   final GlobalKey key;
+  final String? title;
 
   Offset origin = Offset.zero;
   Offset target = Offset.zero;
@@ -15,7 +16,7 @@ class Tile {
   bool hover = false;
   bool solved = false;
 
-  Tile(this.value, this.key);
+  Tile(this.value, this.key, {this.title});
 }
 
 extension TilePhysics on Tile {

@@ -11,6 +11,7 @@ enum GameState {
   shuffle,
   playing,
   solved,
+  musicMode,
 }
 
 /// The game state of tiles and state
@@ -18,15 +19,16 @@ class PuzzleState {
   final List<Tile> tiles;
   final GameState gameState;
 
-  const PuzzleState(
-    this.tiles,
-    this.gameState,
-  );
+  const PuzzleState(this.tiles, this.gameState);
 }
 
 /// A state notifier for GameState.
 class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
-  PuzzleStateNotifier(value) : super(value);
+  PuzzleStateNotifier(value)
+      : _stateBeforeMusicMode = value,
+        super(value);
+
+  PuzzleState _stateBeforeMusicMode;
 
   static const int shuffleTimeMs = 140;
 
@@ -45,11 +47,12 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   /// shuffle the tiles
   void shuffle() async {
     List<Tile> tiles = createSolvedTiles();
-    List<Tile> shuffled = List.from(tiles)..shuffle();
+    //List<Tile> shuffled = List.from(tiles)..shuffle();
+    List<Tile> shuffled = List.from(tiles);
 
-    do {
-      shuffled = List.from(tiles)..shuffle();
-    } while (isSolved(shuffled));
+    //do {
+    //  shuffled = List.from(tiles)..shuffle();
+    //} while (isSolved(shuffled));
 
     // add new tiles one by one
     List<Tile> newTiles = [];
@@ -124,6 +127,17 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     final angle = Random().nextDouble() * pi + pi;
     return Offset(cos(angle), sin(angle)) * vel;
   }
+
+  void toggleMusicMode() {
+    bool isMusicMode = value.gameState == GameState.musicMode;
+
+    if (isMusicMode) {
+      value = _stateBeforeMusicMode;
+    } else {
+      _stateBeforeMusicMode = value;
+      value = PuzzleState(musicTiles, GameState.musicMode);
+    }
+  }
 }
 
 /// The puzzle state notifier
@@ -132,3 +146,25 @@ final puzzleStateNotifier = PuzzleStateNotifier.init();
 final List<int> grid = List.generate(16, (index) => index);
 
 final List<int> solved = List.generate(15, (index) => index)..add(-1);
+
+final notes = [
+  'e',
+  'f',
+  'f#',
+  'g',
+  'g#',
+  'a',
+  'a#',
+  'b',
+  'c',
+  'c#',
+  'd',
+  'd#',
+  'e',
+  'f',
+  'f#',
+  'g'
+];
+
+final List<Tile> musicTiles = List.generate(16,
+    (i) => Tile(i, GlobalKey(debugLabel: '$notes[index]'), title: notes[i]));

@@ -45,6 +45,7 @@ class _ButtonGridState extends State<ButtonGrid> {
         childAspectRatio: 1.0,
         padding: EdgeInsets.zero,
         physics: const NeverScrollableScrollPhysics(),
+        reverse: true,
       ),
     );
   }
@@ -60,6 +61,13 @@ class GridButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (puzzleStateNotifier.value.gameState == GameState.musicMode) {
+      return _buildMusicButton();
+    }
+    return _buildPuzzleButton();
+  }
+
+  Widget _buildPuzzleButton() {
     final isSolved = puzzleStateNotifier.value.gameState == GameState.solved;
     if (isSolved) {
       return const SizedBox();
@@ -96,6 +104,33 @@ class GridButton extends StatelessWidget {
               await Sound.instance.play(tile);
             }
           : null,
+    );
+  }
+
+  OutlinedButton _buildMusicButton() {
+    return OutlinedButton(
+      key: tile.key,
+      child: Text(
+        tile.title ?? tile.value.toString(),
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          color: Colors.black87,
+          fontSize: 14,
+        ),
+      ),
+      style: OutlinedButton.styleFrom(
+        side: const BorderSide(
+          style: BorderStyle.none,
+        ),
+        backgroundColor: Colors.black.withAlpha(8),
+        shape: const BeveledRectangleBorder(),
+      ),
+      onHover: (isHovering) async {
+        tile.hover = isHovering;
+      },
+      onPressed: () async {
+        await Sound.instance.play(tile);
+      },
     );
   }
 }

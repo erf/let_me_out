@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:let_me_out/music_mode_button.dart';
 
 import 'puzzle_state.dart';
 import 'shuffle_button.dart';
@@ -45,6 +46,12 @@ class PuzzleBoard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 24),
                   child: ShuffleButton(puzzleState),
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: MusicModeButton(puzzleState),
                 ),
               ),
             ],
