@@ -69,12 +69,12 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
   /// move tile to empty space
   void move(Tile tile) async {
-    List<Tile> puzzle = value.tiles;
-    final index = puzzle.indexWhere((t) => t.value == tile.value);
+    List<Tile> tiles = value.tiles;
+    final index = tiles.indexWhere((t) => t.value == tile.value);
     final col = index % 4;
     final row = index ~/ 4;
 
-    final emptyIndex = puzzle.indexWhere((t) => t.value == -1);
+    final emptyIndex = tiles.indexWhere((t) => t.value == -1);
     final emptyCol = emptyIndex % 4;
     final emptyRow = emptyIndex ~/ 4;
 
@@ -82,7 +82,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     final rowDist = (row - emptyRow).abs();
 
     if (colDist == 1 && rowDist == 0 || rowDist == 1 && colDist == 0) {
-      Tile emptyTile = puzzle[emptyIndex];
+      Tile emptyTile = tiles[emptyIndex];
 
       Offset tileOrigin = tile.origin;
       Offset emptyTileOrigin = emptyTile.origin;
@@ -96,22 +96,22 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       emptyTile.position = tileOrigin;
       emptyTile.target = tileOrigin;
 
-      puzzle[index] = emptyTile;
-      puzzle[emptyIndex] = tile;
+      tiles[index] = emptyTile;
+      tiles[emptyIndex] = tile;
 
-      if (isSolved(puzzle)) {
-        for (Tile tile in puzzle) {
+      if (isSolved(tiles)) {
+        for (Tile tile in tiles) {
           tile.velocity = getRandomSolvedVector();
           tile.solved = true;
-          value = PuzzleState(puzzle, GameState.solved);
+          value = PuzzleState(tiles, GameState.solved);
           if (tile.value != -1) {
             Sound.instance.play(tile);
           }
           await Future.delayed(const Duration(milliseconds: shuffleTimeMs));
         }
-        value = PuzzleState(puzzle, GameState.solved);
+        value = PuzzleState(tiles, GameState.solved);
       } else {
-        value = PuzzleState(puzzle, GameState.playing);
+        value = PuzzleState(tiles, GameState.playing);
       }
     }
   }
