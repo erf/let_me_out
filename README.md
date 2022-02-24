@@ -10,6 +10,10 @@ Each particle has its own sound and is attracted to a square.
 
 If all the squares are ordered perfectly, the particles are let go.
 
+## Music mode
+
+You can also access music mode to play notes !
+
 ## Links
 
 https://flutterhack.devpost.com/
