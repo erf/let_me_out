@@ -42,7 +42,10 @@ class PuzzleBoard extends StatelessWidget {
                 ),
               ),
               Flexible(
-                child: ShuffleButton(puzzleState),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: ShuffleButton(puzzleState),
+                ),
               ),
             ],
           );

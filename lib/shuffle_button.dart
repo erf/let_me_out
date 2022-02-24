@@ -58,7 +58,7 @@ class _ShuffleButtonState extends State<ShuffleButton> {
         icon: const Icon(
           Icons.refresh,
           color: Colors.black38,
-          size: 18,
+          size: 17,
         ),
         onPressed: () {
           puzzleStateNotifier.shuffle();
