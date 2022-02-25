@@ -64,6 +64,10 @@ Widget _buildGridButton(Tile tile) {
       },
       onPressed: () {
         Sound.instance.play(tile);
+        tile.hover = true;
+        Future.delayed(const Duration(milliseconds: hoverTimeMs), () {
+          tile.hover = false;
+        });
       },
     );
   }
@@ -88,6 +92,10 @@ Widget _buildGridButton(Tile tile) {
         ? () {
             puzzleStateNotifier.move(tile);
             Sound.instance.play(tile);
+            tile.hover = true;
+            Future.delayed(const Duration(milliseconds: hoverTimeMs), () {
+              tile.hover = false;
+            });
           }
         : null,
   );
