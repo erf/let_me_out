@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:let_me_out/constants.dart';
 
 import 'puzzle_state.dart';
 import 'tile.dart';
@@ -128,7 +129,7 @@ class _PhysicsGridState extends State<PhysicsGrid>
 class TilesPainter extends CustomPainter {
   final List<Tile> tiles;
 
-  static final brush = Paint()..color = const Color(0x48eb5cdf);
+  static final brush = Paint()..color = pinkColor;
 
   TilesPainter(this.tiles);
 

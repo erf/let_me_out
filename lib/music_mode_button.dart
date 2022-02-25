@@ -41,8 +41,8 @@ class _MusicModeButtonState extends State<MusicModeButton> {
           icon: Icon(
             Icons.music_note_outlined,
             color: isMusicMode
-                ? Colors.purpleAccent.shade100
-                : Colors.purpleAccent.shade100.withAlpha(100),
+                ? pinkColor.withAlpha(196)
+                : pinkColor.withAlpha(96),
             size: 17,
           ),
           onPressed: () {
