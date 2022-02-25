@@ -58,7 +58,7 @@ class _ShuffleButtonState extends State<ShuffleButton> {
       child: IconButton(
         icon: const Icon(
           Icons.refresh,
-          color: Colors.black38,
+          color: pinkColor,
           size: 17,
         ),
         onPressed: () {
