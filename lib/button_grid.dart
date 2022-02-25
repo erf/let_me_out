@@ -79,36 +79,47 @@ class GridButton extends StatelessWidget {
         decoration: const BoxDecoration(color: Colors.transparent),
       );
     }
-    return OutlinedButton(
-      key: tile.key,
-      child: Text(
-        tile.value.toString(),
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: isSolved ? Colors.black26 : Colors.black87,
-          fontSize: 14,
-        ),
-      ),
-      style: OutlinedButton.styleFrom(
-        side: const BorderSide(
-          style: BorderStyle.none,
-        ),
-        backgroundColor: Colors.black.withAlpha(isSolved ? 0 : 8),
-        shape: const BeveledRectangleBorder(),
-      ),
-      onHover: (isHovering) async {
+    return TileButton(
+      tile,
+      onHover: (isHovering) {
         tile.hover = isHovering;
       },
       onPressed: puzzleStateNotifier.value.gameState == GameState.playing
-          ? () async {
+          ? () {
               puzzleStateNotifier.move(tile);
-              await Sound.instance.play(tile);
+              Sound.instance.play(tile);
             }
           : null,
     );
   }
 
-  OutlinedButton _buildMusicButton() {
+  Widget _buildMusicButton() {
+    return TileButton(
+      tile,
+      onHover: (isHovering) {
+        tile.hover = isHovering;
+      },
+      onPressed: () {
+        Sound.instance.play(tile);
+      },
+    );
+  }
+}
+
+class TileButton extends StatelessWidget {
+  final Tile tile;
+  final ValueChanged<bool>? onHover;
+  final VoidCallback? onPressed;
+
+  const TileButton(
+    this.tile, {
+    Key? key,
+    this.onHover,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return OutlinedButton(
       key: tile.key,
       child: Text(
@@ -126,12 +137,8 @@ class GridButton extends StatelessWidget {
         backgroundColor: Colors.black.withAlpha(8),
         shape: const BeveledRectangleBorder(),
       ),
-      onHover: (isHovering) async {
-        tile.hover = isHovering;
-      },
-      onPressed: () async {
-        await Sound.instance.play(tile);
-      },
+      onHover: onHover,
+      onPressed: onPressed,
     );
   }
 }
