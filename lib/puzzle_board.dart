@@ -25,8 +25,8 @@ class PuzzleBoard extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
             children: [
+              const Spacer(),
               SizedBox(
                 width: maxSize,
                 height: maxSize,
@@ -42,28 +42,24 @@ class PuzzleBoard extends StatelessWidget {
                   ),
                 ),
               ),
-              ColoredBox(
-                color: Colors.transparent,
-                child: Flexible(
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: ShuffleButton(puzzleState),
-                        ),
+              Flexible(
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: ShuffleButton(puzzleState),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: MusicModeButton(puzzleState),
-                        ),
+                    ),
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: MusicModeButton(puzzleState),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
