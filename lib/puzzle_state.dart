@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import 'constants.dart';
 import 'sound.dart';
 import 'tile.dart';
 
@@ -24,9 +25,11 @@ class PuzzleState {
 
 /// A state notifier for GameState.
 class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
-  PuzzleStateNotifier(value)
-      : _stateBeforeMusicMode = value,
-        super(value);
+  PuzzleStateNotifier()
+      : _storedState = PuzzleState(_solvedTiles, GameState.intro),
+        super(PuzzleState(_solvedTiles, GameState.intro));
+
+  PuzzleState _storedState;
 
   static final List<int> _solved = List.generate(15, (i) => i)..add(-1);
 
@@ -52,17 +55,8 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     'g'
   ];
 
-  static final List<Tile> noteTiles =
+  final List<Tile> noteTiles =
       List.generate(16, (i) => Tile(i, GlobalKey(), title: _notes[i]));
-
-  PuzzleState _stateBeforeMusicMode;
-
-  static const int shuffleTimeMs = 140;
-
-  /// create a new puzzle state with shuffled tiles
-  static PuzzleStateNotifier init() {
-    return PuzzleStateNotifier(PuzzleState(_solvedTiles, GameState.intro));
-  }
 
   /// shuffle the tiles
   void shuffle() async {
@@ -151,13 +145,13 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     bool isMusicMode = value.gameState == GameState.musicMode;
 
     if (isMusicMode) {
-      value = _stateBeforeMusicMode;
+      value = _storedState;
     } else {
-      _stateBeforeMusicMode = value;
+      _storedState = value;
       value = PuzzleState(noteTiles, GameState.musicMode);
     }
   }
 }
 
 /// The puzzle state notifier
-final puzzleStateNotifier = PuzzleStateNotifier.init();
+final puzzleStateNotifier = PuzzleStateNotifier();
