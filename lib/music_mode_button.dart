@@ -40,8 +40,8 @@ class _MusicModeButtonState extends State<MusicModeButton> {
         child: IconButton(
           icon: Icon(
             isMusicMode ? Icons.music_note_outlined : Icons.gamepad_outlined,
-            color: pinkColor,
-            size: 18,
+            color: iconColor,
+            size: iconSize,
           ),
           onPressed: () {
             puzzleStateNotifier.toggleMusicMode();

@@ -33,7 +33,7 @@ class _PuzzleMessageState extends State<PuzzleMessage> {
     return AnimatedOpacity(
       opacity: opacity,
       duration: const Duration(milliseconds: fadeInTimeMs),
-      curve: Curves.easeIn,
+      curve: Curves.easeInCubic,
       child: getMessage(gameState),
     );
   }
@@ -41,14 +41,15 @@ class _PuzzleMessageState extends State<PuzzleMessage> {
   Widget getMessage(GameState gameState) {
     switch (gameState) {
       case GameState.intro:
-        return const Text('LeT ME oUt!');
+        return const Text('LeT ME oUt !');
       case GameState.shuffle:
-      case GameState.playing:
         return const SizedBox.shrink();
+      case GameState.playing:
+        return const Text('LeT ME oUt !');
       case GameState.solved:
         return const Text('sOLVEd');
       case GameState.musicMode:
-        return const Text('MuSiC MoDe');
+        return const Text('MuSiC moDe');
       default:
         return const SizedBox.shrink();
     }

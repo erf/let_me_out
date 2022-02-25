@@ -26,7 +26,15 @@ class PuzzleBoard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Spacer(),
+              Flexible(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: PuzzleMessage(puzzleState),
+                  ),
+                ),
+              ),
               SizedBox(
                 width: maxSize,
                 height: maxSize,
@@ -37,7 +45,6 @@ class PuzzleBoard extends StatelessWidget {
                     children: [
                       ButtonGrid(puzzleState),
                       PhysicsGrid(puzzleState),
-                      PuzzleMessage(puzzleState),
                     ],
                   ),
                 ),
