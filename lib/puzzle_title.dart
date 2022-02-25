@@ -4,16 +4,16 @@ import 'package:let_me_out/constants.dart';
 import 'puzzle_state.dart';
 
 /// Show the current state of the game.
-class PuzzleMessage extends StatefulWidget {
+class PuzzleTitle extends StatefulWidget {
   final PuzzleState puzzleState;
 
-  const PuzzleMessage(this.puzzleState, {Key? key}) : super(key: key);
+  const PuzzleTitle(this.puzzleState, {Key? key}) : super(key: key);
 
   @override
-  State<PuzzleMessage> createState() => _PuzzleMessageState();
+  State<PuzzleTitle> createState() => _PuzzleTitleState();
 }
 
-class _PuzzleMessageState extends State<PuzzleMessage> {
+class _PuzzleTitleState extends State<PuzzleTitle> {
   double opacity = 0.0;
 
   @override

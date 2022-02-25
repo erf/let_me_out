@@ -5,7 +5,7 @@ import 'package:let_me_out/music_mode_button.dart';
 
 import 'puzzle_state.dart';
 import 'shuffle_button.dart';
-import 'puzzle_message.dart';
+import 'puzzle_title.dart';
 import 'button_grid.dart';
 import 'physics_grid.dart';
 
@@ -31,7 +31,7 @@ class PuzzleBoard extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: PuzzleMessage(puzzleState),
+                    child: PuzzleTitle(puzzleState),
                   ),
                 ),
               ),
