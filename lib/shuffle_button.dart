@@ -47,12 +47,15 @@ class _ShuffleButtonState extends State<ShuffleButton> {
         opacity: disable ? 0.0 : 1.0,
         duration: const Duration(milliseconds: fadeInTimeMs),
         curve: Curves.easeInCubic,
-        child: _buildButton(disable),
+        child: Visibility(
+          visible: !isMusicMode,
+          child: _buildButton(disable),
+        ),
       ),
     );
   }
 
-  IgnorePointer _buildButton(bool disable) {
+  Widget _buildButton(bool disable) {
     return IgnorePointer(
       ignoring: disable,
       child: IconButton(
