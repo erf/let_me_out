@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:let_me_out/constants.dart';
 
 import 'puzzle_state.dart';
 import 'sound.dart';
@@ -117,6 +118,7 @@ class TileButton extends StatelessWidget {
         ),
       ),
       style: OutlinedButton.styleFrom(
+        primary: pinkColor,
         side: const BorderSide(
           style: BorderStyle.none,
         ),
