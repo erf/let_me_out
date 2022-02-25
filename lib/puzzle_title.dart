@@ -41,15 +41,13 @@ class _PuzzleTitleState extends State<PuzzleTitle> {
   Widget getMessage(GameState gameState) {
     switch (gameState) {
       case GameState.intro:
-        return const Text('LeT ME oUt !');
       case GameState.shuffle:
-        return const SizedBox.shrink();
       case GameState.playing:
         return const Text('LeT ME oUt !');
       case GameState.solved:
         return const Text('sOLVEd');
       case GameState.musicMode:
-        return const Text('MuSiC moDe');
+        return const Text('MuSiC bOX');
       default:
         return const SizedBox.shrink();
     }
