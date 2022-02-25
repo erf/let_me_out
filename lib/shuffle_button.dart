@@ -38,7 +38,7 @@ class _ShuffleButtonState extends State<ShuffleButton> {
   Widget _buildAnimatedButton() {
     bool isMusicMode = widget.puzzleState.gameState == GameState.musicMode;
     bool shuffeling = widget.puzzleState.gameState == GameState.shuffle;
-    bool disable = shuffeling || initializing || isMusicMode;
+    bool disable = shuffeling || initializing;
     return AnimatedRotation(
       turns: turns,
       duration: const Duration(milliseconds: fadeInTimeMs),
