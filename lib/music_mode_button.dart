@@ -39,9 +39,9 @@ class _MusicModeButtonState extends State<MusicModeButton> {
         curve: Curves.easeInCubic,
         child: IconButton(
           icon: Icon(
-            Icons.music_note_outlined,
-            color: isMusicMode ? pinkColor : pinkDisabled,
-            size: 17,
+            isMusicMode ? Icons.music_note_outlined : Icons.gamepad_outlined,
+            color: pinkColor,
+            size: 18,
           ),
           onPressed: () {
             puzzleStateNotifier.toggleMusicMode();

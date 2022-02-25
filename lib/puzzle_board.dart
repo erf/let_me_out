@@ -42,16 +42,28 @@ class PuzzleBoard extends StatelessWidget {
                   ),
                 ),
               ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: ShuffleButton(puzzleState),
-                ),
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: MusicModeButton(puzzleState),
+              ColoredBox(
+                color: Colors.transparent,
+                child: Flexible(
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: ShuffleButton(puzzleState),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: MusicModeButton(puzzleState),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
