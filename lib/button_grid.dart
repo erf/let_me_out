@@ -130,7 +130,7 @@ class TileButton extends StatelessWidget {
         side: const BorderSide(
           style: BorderStyle.none,
         ),
-        backgroundColor: Colors.black.withAlpha(8),
+        backgroundColor: tileColor,
         shape: const BeveledRectangleBorder(),
       ),
       onHover: onHover,
