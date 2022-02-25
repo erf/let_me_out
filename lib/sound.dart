@@ -8,7 +8,7 @@ class Sound {
   static final Sound instance = Sound._();
 
   final _soundPool = Soundpool.fromOptions(
-    options: const SoundpoolOptions(maxStreams: 16),
+    options: const SoundpoolOptions(maxStreams: 4),
   );
 
   Map<String, int> _soundIdMap = {};
