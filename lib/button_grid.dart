@@ -53,7 +53,9 @@ class _ButtonGridState extends State<ButtonGrid> {
 }
 
 Widget _buildGridButton(Tile tile) {
-  if (puzzleStateNotifier.value.gameState == GameState.musicMode) {
+  final gameState = puzzleStateNotifier.value.gameState;
+
+  if (gameState == GameState.musicMode) {
     return TileButton(
       tile,
       onHover: (isHovering) {
@@ -65,8 +67,7 @@ Widget _buildGridButton(Tile tile) {
     );
   }
 
-  final solved = puzzleStateNotifier.value.gameState == GameState.solved;
-  if (solved) {
+  if (gameState == GameState.solved) {
     return const SizedBox();
   }
 
@@ -77,13 +78,12 @@ Widget _buildGridButton(Tile tile) {
     );
   }
 
-  final isPlaying = puzzleStateNotifier.value.gameState == GameState.playing;
   return TileButton(
     tile,
     onHover: (hover) {
       tile.hover = hover;
     },
-    onPressed: isPlaying
+    onPressed: gameState == GameState.playing
         ? () {
             puzzleStateNotifier.move(tile);
             Sound.instance.play(tile);
