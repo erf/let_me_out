@@ -45,6 +45,15 @@ class _PhysicsGridState extends State<PhysicsGrid>
     });
   }
 
+  @override
+  void didUpdateWidget(oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    WidgetsBinding.instance?.addPostFrameCallback((huh) {
+      setTilePositions();
+    });
+  }
+
   // dispose of the ticker
   @override
   void dispose() {
