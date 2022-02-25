@@ -25,17 +25,18 @@ class PuzzleState {
 
 /// A state notifier for GameState.
 class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
-  PuzzleStateNotifier()
-      : _storedState = PuzzleState(_solvedTiles, GameState.intro),
-        super(PuzzleState(_solvedTiles, GameState.intro));
+  /// initialize state with solved tiles and intro state
+  PuzzleStateNotifier() : super(PuzzleState(_solved, GameState.intro));
 
-  PuzzleState _storedState;
+  // for storing state when in music mode
+  PuzzleState? _storedState;
 
-  static final List<int> _solved = List.generate(15, (i) => i)..add(-1);
+  // the solved tile list
+  static final List<Tile> _solved = (List.generate(15, (i) => i)..add(-1))
+      .map((i) => Tile(i, GlobalKey()))
+      .toList();
 
-  static final List<Tile> _solvedTiles =
-      _solved.map((i) => Tile(i, GlobalKey())).toList();
-
+  // notes
   static final _notes = [
     'e',
     'f',
@@ -55,12 +56,13 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     'g'
   ];
 
+  // note tile list
   final List<Tile> noteTiles =
       List.generate(16, (i) => Tile(i, GlobalKey(), title: _notes[i]));
 
   /// shuffle the tiles
   void shuffle() async {
-    List<Tile> shuffled = List.from(_solvedTiles)..shuffle();
+    List<Tile> shuffled = List.from(_solved)..shuffle();
 
     while (isSolved(shuffled)) {
       shuffled.shuffle();
@@ -83,7 +85,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   /// determine if puzzle is solved
   bool isSolved(List<Tile> tiles) {
     return (List.generate(16, (i) => i)
-        .every((i) => tiles[i].value == _solved[i]));
+        .every((i) => tiles[i].value == _solved[i].value));
   }
 
   /// move tile to empty space
@@ -145,7 +147,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     bool isMusicMode = value.gameState == GameState.musicMode;
 
     if (isMusicMode) {
-      value = _storedState;
+      value = _storedState ?? PuzzleState(_solved, GameState.intro);
     } else {
       _storedState = value;
       value = PuzzleState(noteTiles, GameState.musicMode);
