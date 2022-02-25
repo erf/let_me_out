@@ -102,6 +102,8 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
     final colDist = (col - emptyCol).abs();
     final rowDist = (row - emptyRow).abs();
 
+    tile.hover = false;
+
     // are we one tile away from the empty space?
     if (colDist == 1 && rowDist == 0 || rowDist == 1 && colDist == 0) {
       Tile emptyTile = tiles[emptyIndex];
@@ -109,12 +111,9 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       Offset tileOrigin = tile.origin;
       Offset emptyTileOrigin = emptyTile.origin;
 
+      // swizzle tile origins
       tile.origin = emptyTileOrigin;
-      tile.position = tileOrigin;
-      tile.hover = false;
-
       emptyTile.origin = tileOrigin;
-      emptyTile.position = tileOrigin;
 
       tiles[index] = emptyTile;
       tiles[emptyIndex] = tile;
