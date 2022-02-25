@@ -12,7 +12,7 @@ enum GameState {
   shuffle,
   playing,
   solved,
-  musicMode,
+  musicBox,
 }
 
 /// The game state of tiles and state
@@ -142,11 +142,11 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   }
 
   void toggleMusicMode() {
-    if (value.gameState == GameState.musicMode) {
+    if (value.gameState == GameState.musicBox) {
       value = _previousState ?? PuzzleState(_solved, GameState.intro);
     } else {
       _previousState = value;
-      value = PuzzleState(noteTiles, GameState.musicMode);
+      value = PuzzleState(noteTiles, GameState.musicBox);
     }
   }
 }

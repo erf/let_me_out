@@ -36,7 +36,7 @@ class _ShuffleButtonState extends State<ShuffleButton> {
   }
 
   Widget _buildAnimatedButton() {
-    bool isMusicMode = widget.puzzleState.gameState == GameState.musicMode;
+    bool musicBox = widget.puzzleState.gameState == GameState.musicBox;
     bool shuffeling = widget.puzzleState.gameState == GameState.shuffle;
     bool disable = shuffeling || initializing;
     return AnimatedRotation(
@@ -48,7 +48,7 @@ class _ShuffleButtonState extends State<ShuffleButton> {
         duration: const Duration(milliseconds: fadeInTimeMs),
         curve: Curves.easeInCubic,
         child: Visibility(
-          visible: !isMusicMode,
+          visible: !musicBox,
           child: _buildButton(disable),
         ),
       ),

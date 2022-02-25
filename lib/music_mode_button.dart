@@ -28,7 +28,7 @@ class _MusicModeButtonState extends State<MusicModeButton> {
 
   @override
   Widget build(BuildContext context) {
-    bool isMusicMode = widget.puzzleState.gameState == GameState.musicMode;
+    bool musicBox = widget.puzzleState.gameState == GameState.musicBox;
     bool shuffeling = widget.puzzleState.gameState == GameState.shuffle;
     bool disable = shuffeling || initializing;
     return IgnorePointer(
@@ -39,7 +39,7 @@ class _MusicModeButtonState extends State<MusicModeButton> {
         curve: Curves.easeInCubic,
         child: IconButton(
           icon: Icon(
-            isMusicMode ? Icons.music_note_outlined : Icons.gamepad_outlined,
+            musicBox ? Icons.music_note_outlined : Icons.gamepad_outlined,
             color: iconColor,
             size: iconSize,
           ),

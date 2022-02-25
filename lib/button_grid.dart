@@ -34,7 +34,7 @@ class _ButtonGridState extends State<ButtonGrid> {
   @override
   Widget build(BuildContext context) {
     final tiles = widget.puzzleState.tiles;
-    final isMusicMode = widget.puzzleState.gameState == GameState.musicMode;
+    final isMusicMode = widget.puzzleState.gameState == GameState.musicBox;
     return AnimatedOpacity(
       opacity: opacity,
       duration: const Duration(milliseconds: 1000),
@@ -56,7 +56,7 @@ class _ButtonGridState extends State<ButtonGrid> {
 Widget _buildGridButton(Tile tile) {
   final gameState = puzzleStateNotifier.value.gameState;
 
-  if (gameState == GameState.musicMode) {
+  if (gameState == GameState.musicBox) {
     return TileButton(
       tile,
       onHover: (isHovering) {

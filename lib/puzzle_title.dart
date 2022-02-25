@@ -46,7 +46,7 @@ class _PuzzleTitleState extends State<PuzzleTitle> {
         return const Text('LeT ME oUt !');
       case GameState.solved:
         return const Text('sOLVEd');
-      case GameState.musicMode:
+      case GameState.musicBox:
         return const Text('MuSiC bOX');
       default:
         return const SizedBox.shrink();
