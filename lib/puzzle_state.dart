@@ -28,14 +28,36 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       : _stateBeforeMusicMode = value,
         super(value);
 
+  static final List<int> _solved = List.generate(15, (index) => index)..add(-1);
+
+  static final _notes = [
+    'e',
+    'f',
+    'f#',
+    'g',
+    'g#',
+    'a',
+    'a#',
+    'b',
+    'c',
+    'c#',
+    'd',
+    'd#',
+    'e',
+    'f',
+    'f#',
+    'g'
+  ];
+
+  static final List<Tile> noteTiles =
+      List.generate(16, (i) => Tile(i, GlobalKey(), title: _notes[i]));
+
   PuzzleState _stateBeforeMusicMode;
 
   static const int shuffleTimeMs = 140;
 
   static createSolvedTiles() {
-    return solved
-        .map((value) => Tile(value, GlobalKey(debugLabel: '$value')))
-        .toList();
+    return _solved.map((value) => Tile(value, GlobalKey())).toList();
   }
 
   /// create a new puzzle state with shuffled tiles
@@ -69,7 +91,8 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
   /// determine if puzzle is solved
   bool isSolved(List<Tile> tiles) {
-    return (grid.every((i) => tiles[i].value == solved[i]));
+    return (List.generate(16, (i) => i)
+        .every((i) => tiles[i].value == _solved[i]));
   }
 
   /// move tile to empty space
@@ -134,36 +157,10 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       value = _stateBeforeMusicMode;
     } else {
       _stateBeforeMusicMode = value;
-      value = PuzzleState(musicTiles, GameState.musicMode);
+      value = PuzzleState(noteTiles, GameState.musicMode);
     }
   }
 }
 
 /// The puzzle state notifier
 final puzzleStateNotifier = PuzzleStateNotifier.init();
-
-final List<int> grid = List.generate(16, (index) => index);
-
-final List<int> solved = List.generate(15, (index) => index)..add(-1);
-
-final notes = [
-  'e',
-  'f',
-  'f#',
-  'g',
-  'g#',
-  'a',
-  'a#',
-  'b',
-  'c',
-  'c#',
-  'd',
-  'd#',
-  'e',
-  'f',
-  'f#',
-  'g'
-];
-
-final List<Tile> musicTiles = List.generate(16,
-    (i) => Tile(i, GlobalKey(debugLabel: '$notes[index]'), title: notes[i]));
