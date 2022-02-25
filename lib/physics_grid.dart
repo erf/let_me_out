@@ -64,7 +64,6 @@ class _PhysicsGridState extends State<PhysicsGrid>
     final gridOffset = getGridOffset(context);
     for (Tile tile in puzzleState.tiles) {
       tile.origin = getTileOffset(tile, gridOffset);
-      tile.target = tile.origin;
     }
   }
 

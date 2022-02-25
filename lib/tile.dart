@@ -9,7 +9,6 @@ class Tile {
   final String? title;
 
   Offset origin = Offset.zero;
-  Offset target = Offset.zero;
   Offset position = Offset.zero;
   Offset velocity = Offset.zero;
 
@@ -22,7 +21,7 @@ class Tile {
 extension TilePhysics on Tile {
   // update tile physics
   void update(double dt, GameState gameState) {
-    if (gameState == GameState.solved && this.solved) {
+    if (gameState == GameState.solved && solved) {
       _updateSolved(dt);
     } else {
       _updateAttraction(dt, gameState);
@@ -54,7 +53,7 @@ extension TilePhysics on Tile {
   }
 
   void _updateAttraction(double dt, GameState gameState) {
-    Offset dir = target - position;
+    Offset dir = origin - position;
     if (_shouldShake(gameState)) {
       dir += _randomShakeVector();
     }
