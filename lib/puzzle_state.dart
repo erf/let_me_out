@@ -29,7 +29,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   PuzzleStateNotifier() : super(PuzzleState(_solved, GameState.intro));
 
   // for storing state when in music mode
-  PuzzleState? _storedState;
+  PuzzleState? _previousState;
 
   // the solved tile list
   static final List<Tile> _solved = (List.generate(15, (i) => i)..add(-1))
@@ -111,7 +111,7 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       Offset tileOrigin = tile.origin;
       Offset emptyTileOrigin = emptyTile.origin;
 
-      // swizzle tile origins
+      // swizzle tile origins (and ready them for simulation)
       tile.origin = emptyTileOrigin;
       emptyTile.origin = tileOrigin;
 
@@ -142,12 +142,10 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
   }
 
   void toggleMusicMode() {
-    bool isMusicMode = value.gameState == GameState.musicMode;
-
-    if (isMusicMode) {
-      value = _storedState ?? PuzzleState(_solved, GameState.intro);
+    if (value.gameState == GameState.musicMode) {
+      value = _previousState ?? PuzzleState(_solved, GameState.intro);
     } else {
-      _storedState = value;
+      _previousState = value;
       value = PuzzleState(noteTiles, GameState.musicMode);
     }
   }
