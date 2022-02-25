@@ -28,7 +28,10 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
       : _stateBeforeMusicMode = value,
         super(value);
 
-  static final List<int> _solved = List.generate(15, (index) => index)..add(-1);
+  static final List<int> _solved = List.generate(15, (i) => i)..add(-1);
+
+  static final List<Tile> _solvedTiles =
+      _solved.map((i) => Tile(i, GlobalKey())).toList();
 
   static final _notes = [
     'e',
@@ -56,24 +59,18 @@ class PuzzleStateNotifier extends ValueNotifier<PuzzleState> {
 
   static const int shuffleTimeMs = 140;
 
-  static createSolvedTiles() {
-    return _solved.map((value) => Tile(value, GlobalKey())).toList();
-  }
-
   /// create a new puzzle state with shuffled tiles
   static PuzzleStateNotifier init() {
-    return PuzzleStateNotifier(
-        PuzzleState(createSolvedTiles(), GameState.intro));
+    return PuzzleStateNotifier(PuzzleState(_solvedTiles, GameState.intro));
   }
 
   /// shuffle the tiles
   void shuffle() async {
-    List<Tile> tiles = createSolvedTiles();
-    List<Tile> shuffled = List.from(tiles)..shuffle();
+    List<Tile> shuffled = List.from(_solvedTiles)..shuffle();
 
-    do {
-      shuffled = List.from(tiles)..shuffle();
-    } while (isSolved(shuffled));
+    while (isSolved(shuffled)) {
+      shuffled.shuffle();
+    }
 
     // add new tiles one by one
     List<Tile> newTiles = [];
