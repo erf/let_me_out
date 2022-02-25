@@ -40,7 +40,7 @@ class _ButtonGridState extends State<ButtonGrid> {
       curve: Curves.easeIn,
       child: GridView.count(
         crossAxisCount: 4,
-        children: tiles.map((tile) => GridButton(tile)).toList(),
+        children: tiles.map((tile) => _buildGridButton(tile)).toList(),
         mainAxisSpacing: 24.0,
         crossAxisSpacing: 24.0,
         childAspectRatio: 1.0,
@@ -52,48 +52,8 @@ class _ButtonGridState extends State<ButtonGrid> {
   }
 }
 
-class GridButton extends StatelessWidget {
-  final Tile tile;
-
-  const GridButton(
-    this.tile, {
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (puzzleStateNotifier.value.gameState == GameState.musicMode) {
-      return _buildMusicButton();
-    }
-    return _buildPuzzleButton();
-  }
-
-  Widget _buildPuzzleButton() {
-    final isSolved = puzzleStateNotifier.value.gameState == GameState.solved;
-    if (isSolved) {
-      return const SizedBox();
-    }
-    if (tile.value == -1) {
-      return DecoratedBox(
-        key: tile.key,
-        decoration: const BoxDecoration(color: Colors.transparent),
-      );
-    }
-    return TileButton(
-      tile,
-      onHover: (isHovering) {
-        tile.hover = isHovering;
-      },
-      onPressed: puzzleStateNotifier.value.gameState == GameState.playing
-          ? () {
-              puzzleStateNotifier.move(tile);
-              Sound.instance.play(tile);
-            }
-          : null,
-    );
-  }
-
-  Widget _buildMusicButton() {
+Widget _buildGridButton(Tile tile) {
+  if (puzzleStateNotifier.value.gameState == GameState.musicMode) {
     return TileButton(
       tile,
       onHover: (isHovering) {
@@ -104,6 +64,32 @@ class GridButton extends StatelessWidget {
       },
     );
   }
+
+  final solved = puzzleStateNotifier.value.gameState == GameState.solved;
+  if (solved) {
+    return const SizedBox();
+  }
+
+  if (tile.value == -1) {
+    return DecoratedBox(
+      key: tile.key,
+      decoration: const BoxDecoration(color: Colors.transparent),
+    );
+  }
+
+  final isPlaying = puzzleStateNotifier.value.gameState == GameState.playing;
+  return TileButton(
+    tile,
+    onHover: (hover) {
+      tile.hover = hover;
+    },
+    onPressed: isPlaying
+        ? () {
+            puzzleStateNotifier.move(tile);
+            Sound.instance.play(tile);
+          }
+        : null,
+  );
 }
 
 class TileButton extends StatelessWidget {
