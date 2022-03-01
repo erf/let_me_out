@@ -59,8 +59,10 @@ class _ShuffleButtonState extends State<ShuffleButton> {
     return IgnorePointer(
       ignoring: disable,
       child: IconButton(
-        icon: const Icon(
-          Icons.refresh,
+        icon: Icon(
+          widget.puzzleState.gameState == GameState.intro
+              ? Icons.play_arrow
+              : Icons.refresh,
           color: iconColor,
           size: iconSize,
         ),
