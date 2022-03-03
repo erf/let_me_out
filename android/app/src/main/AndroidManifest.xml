@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.apptakk.let_me_out">
    <application
-        android:label="let_me_out"
+        android:label="Let Me Out"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
