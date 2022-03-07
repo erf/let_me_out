@@ -1,6 +1,8 @@
-# Let Me Out !
+# Let me out
 
-My Google sliding puzzle hack comp.
+My Google sliding puzzle hack comp entry.
+
+https://flutterhack.devpost.com/
 
 ## Story
 
@@ -14,10 +16,9 @@ If all the squares are ordered perfectly, the particles are let go.
 
 You can also access music mode to play notes !
 
-## Links
+## Web app
 
-https://flutterhack.devpost.com/
+Play the web version here:
 
 https://erf.github.io/let_me_out_web/
 
-https://docs.flutter.dev/development/ui/animations/tutorial
