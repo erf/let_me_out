@@ -22,3 +22,6 @@ Play the web version here:
 
 https://erf.github.io/let_me_out_web/
 
+## App Store
+
+https://apps.apple.com/app/id1614067976
