@@ -16,12 +16,14 @@ If all the squares are ordered perfectly, the particles are let go.
 
 You can also access music mode to play notes !
 
-## Web app
+## Try it
 
-Play the web version here:
 
-https://erf.github.io/let_me_out_web/
+Web
+[Link](https://erf.github.io/let_me_out_web)
 
-## App Store
+iOS / iPad
+[App Store](https://apps.apple.com/app/id1614067976)
 
-https://apps.apple.com/app/id1614067976
+Android
+[Play Store](https://play.google.com/store/apps/details?id=com.apptakk.let_me_out)
