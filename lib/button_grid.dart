@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:let_me_out/constants.dart';
 
 import 'puzzle_state.dart';
@@ -90,6 +91,7 @@ Widget _buildGridButton(Tile tile) {
     },
     onPressed: gameState == GameState.playing
         ? () {
+            HapticFeedback.vibrate();
             puzzleStateNotifier.move(tile);
             Sound.instance.play(tile);
             tile.hover = true;
